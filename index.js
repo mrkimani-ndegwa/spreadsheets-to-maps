@@ -4,13 +4,16 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const cors = require('cors');
 
-// Local Imports
-const Router = require('./routes');
+const { GoogleSpreadsheet } = require('google-spreadsheet');
+
 
 // Config
 const { PORT } = require("./config");
 // Create App
 const app = express();
+
+// Routes
+const Router = require("./routes");
 
 app.set('port', PORT);
 app.use(logger('tiny'));
@@ -48,6 +51,6 @@ app.listen(PORT, () => {
   console.log(
     `Express Server started on Port ${app.get(
       'port'
-    )} | Environment : ${NODE_ENV}`
+    )}`
   );
 });
