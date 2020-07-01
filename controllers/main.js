@@ -56,8 +56,22 @@ const accessRegionalHubData = async (req, res) => {
     }
 };
 
+const accessBuildBackBetterUkData = async(req, res) => {
+    try{
+        const response = await fetch(`http://gsx2json.com/api?id=1L8uBgAWy1zc2BJNuBVHe_ymYM3GNxIcLAuydN0W6dQQ`);
+        if(!response.ok){
+          throw new Error("Getting regional hubs failing");
+        }; 
+        const data = await response.json(); 
+        res.send({msg: "Success", data: data.rows})
+    } catch(e){
+        res.send({msg: "Error", e: e.message || "Unknown Error"})
+    }
+};
+
 
 module.exports =  {
     accessGroupData,
-    accessRegionalHubData
+    accessRegionalHubData,
+    accessBuildBackBetterUkData
 };
