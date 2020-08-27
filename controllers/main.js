@@ -69,9 +69,34 @@ const accessBuildBackBetterUkData = async(req, res) => {
     }
 };
 
+const accessSalesForceGroups = async(req, res) => {
+    try{
+        const response = await fetch(`http://gsx2json.com/api?id=${GOOGLE_API_SPREADSHEETS_ID}&sheet=7`);
+        if(!response.ok){
+          throw new Error("Getting salesforce groups failing");
+        }; 
+        let data = await response.json(); 
+        data = data.rows.map(group=>{
+            return {
+                ...group,
+                source: "google-sheet",
+                lat: group.megamaplatitude.toString(),
+                lng: group.megamaplongitude.toString(),
+                category: "local_group",
+                event_type: 'group',
+                supergroup: "Local Groups"
+            }
+        })
+        res.send({msg: "Success", data})
+    } catch(e){
+        res.send({msg: "Error", e: e.message || "Unknown Error"})
+    }
+};
+
 
 module.exports =  {
     accessGroupData,
     accessRegionalHubData,
-    accessBuildBackBetterUkData
+    accessBuildBackBetterUkData,
+    accessSalesForceGroups
 };
